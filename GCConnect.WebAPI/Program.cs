@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Identity.Web;
+using GCConnect.WebAPI.Extensions;
 
 namespace GCConnect.WebAPI
 {
@@ -9,13 +8,8 @@ namespace GCConnect.WebAPI
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-			builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-				.AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
-
-			builder.Services.AddControllers();
-			// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-			builder.Services.AddOpenApi();
+			//Register services in the extension method and keep the Program.cs clean
+			builder.Services.ConfigureServices(builder.Configuration);
 
 			var app = builder.Build();
 

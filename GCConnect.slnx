@@ -1,3 +1,7 @@
 <Solution>
+  <Project Path="GCConnect.Common/GCConnect.Common.csproj" />
+  <Project Path="GCConnect.JobListener/GCConnect.JobListener.csproj" />
+  <Project Path="GCConnect.Services/GCConnect.Services.csproj" />
+  <Project Path="GCConnect.Tests/GCConnect.Tests.csproj" />
   <Project Path="GCConnect.WebAPI/GCConnect.WebAPI.csproj" />
 </Solution>
