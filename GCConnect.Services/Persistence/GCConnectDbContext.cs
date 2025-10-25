@@ -18,21 +18,9 @@ public class GCConnectDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(GCConnectDbContext).Assembly);
-        // Soft-delete filters
         modelBuilder.Entity<User>().HasQueryFilter(x => !x.IsDeleted);
-        // filter leaves both by its own IsDeleted and the related user
         modelBuilder.Entity<Leave>().HasQueryFilter(l => !l.IsDeleted && !l.User.IsDeleted);
-        // Конвенция: rowversion за всички BaseEntity.RowVersion
-        foreach (var et in modelBuilder.Model.GetEntityTypes())
-        {
-            var rv = et.FindProperty(nameof(BaseEntity.RowVersion));
-            if (rv != null) rv.IsConcurrencyToken = true;
-
-            var dc = et.FindProperty(nameof(BaseEntity.DateCreated));
-            if (dc != null && dc.ClrType == typeof(DateTimeOffset))
-                dc.SetDefaultValueSql("SYSDATETIMEOFFSET()"); // допълва интерсептора
-        }
-        modelBuilder.ApplyBaseConventions();
+        modelBuilder.Entity<LeavePolicy>().HasQueryFilter(lp => !lp.IsDeleted && !lp.User.IsDeleted);
         base.OnModelCreating(modelBuilder);
     }
 }

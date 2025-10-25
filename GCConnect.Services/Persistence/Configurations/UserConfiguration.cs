@@ -5,17 +5,18 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GCConnect.Services.Persistence.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public class UserConfiguration : BaseEntityConfiguration<User>
 {
    
-       public void Configure(EntityTypeBuilder<User> b)
-    {
+     public override void Configure(EntityTypeBuilder<User> b)
+     { 
+        base.Configure(b);
         b.ToTable("Users", tb =>
         {
             // CHECK за enum UserRole (SQL Server синтаксис)
             tb.HasCheckConstraint("CK_Users_Role_Enum_Valid", "[Role] IN (1, 2)");
         });
-        b.HasKey(x => x.Id);
+        
 
         b.Property(x => x.Email).IsRequired().HasMaxLength(256);
         b.Property(x => x.FirstName).IsRequired().HasMaxLength(100);
@@ -26,12 +27,8 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         b.Property(x => x.HireDate).HasColumnType("date");
 
         b.Property(x => x.Role)
-            .HasConversion<int>()                 // User|Admin (enum -> int)
+            .HasConversion<int>()                 
             .IsRequired();
-       
-
-
-        b.Property(x => x.RowVersion).IsRowVersion();
 
         b.HasIndex(x => x.Email).IsUnique();
 

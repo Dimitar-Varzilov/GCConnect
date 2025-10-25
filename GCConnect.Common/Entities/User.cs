@@ -6,12 +6,8 @@ public class User : BaseEntity
     public string Email { get; set; } = null!;
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
-
-    // Use DateOnly to match DB date column and seeder usage
     public DateOnly BirthDate { get; set; }
     public DateOnly HireDate { get; set; }
-
-    // Matches configuration: Role with enum conversion
     public UserRole Role { get; set; }
 
     // Optional external id and active flag

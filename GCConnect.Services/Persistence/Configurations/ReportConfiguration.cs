@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GCConnect.Services.Persistence.Configurations;
 
-public class ReportConfiguration : IEntityTypeConfiguration<Report>
+public class ReportConfiguration : BaseEntityConfiguration<Report>
 {
-    public void Configure(EntityTypeBuilder<Report> b)
+    public override void Configure(EntityTypeBuilder<Report> b)
     {
+        base.Configure(b);
         b.ToTable("Reports");
-        b.HasKey(x => x.Id);
+        
         b.Property(x => x.Name).IsRequired().HasMaxLength(120);
         b.Property(x => x.BlobUrl).IsRequired().HasMaxLength(1024);
        

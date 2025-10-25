@@ -37,7 +37,9 @@ namespace GCConnect.Services.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Logs")
                         .HasMaxLength(4000)
@@ -58,7 +60,7 @@ namespace GCConnect.Services.Migrations
                     b.Property<DateTimeOffset>("StartedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
-                        .HasDefaultValueSql("SYSDATETIMEOFFSET()");
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -97,7 +99,9 @@ namespace GCConnect.Services.Migrations
                         .HasColumnType("date");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Note")
                         .HasMaxLength(300)
@@ -108,18 +112,16 @@ namespace GCConnect.Services.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("int");
 
                     b.Property<DateOnly>("ToDate")
                         .HasColumnType("date");
 
-                    b.Property<string>("Type")
-                        .IsRequired()
+                    b.Property<int>("Type")
                         .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -131,10 +133,6 @@ namespace GCConnect.Services.Migrations
                     b.ToTable("Leaves", null, t =>
                         {
                             t.HasCheckConstraint("CK_Leaves_FromTo", "[FromDate] <= [ToDate]");
-
-                            t.HasCheckConstraint("CK_Leaves_Status", "[Status] IN (N'Approved', N'Pending')");
-
-                            t.HasCheckConstraint("CK_Leaves_Type", "[Type] IN (N'Paid', N'Unpaid', N'Sick')");
                         });
                 });
 
@@ -155,7 +153,9 @@ namespace GCConnect.Services.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("QuotaDays")
                         .ValueGeneratedOnAdd()
@@ -167,7 +167,7 @@ namespace GCConnect.Services.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<Guid?>("UserId")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Year")
@@ -197,7 +197,9 @@ namespace GCConnect.Services.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -226,7 +228,9 @@ namespace GCConnect.Services.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -258,7 +262,9 @@ namespace GCConnect.Services.Migrations
                         .HasDefaultValueSql("SYSUTCDATETIME()");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -306,7 +312,9 @@ namespace GCConnect.Services.Migrations
                         .HasColumnType("date");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -375,7 +383,8 @@ namespace GCConnect.Services.Migrations
                     b.HasOne("User", "User")
                         .WithMany("LeavePolicies")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

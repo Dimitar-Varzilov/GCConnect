@@ -7,7 +7,6 @@ public class JobHistory : BaseEntity
     public JobType Type { get; set; }
     public JobStatus Status { get; set; } = JobStatus.Queued;
 
-    // StartedAt will be set by the database default (SYSDATETIMEOFFSET()) configured in EF
     public DateTimeOffset StartedAt { get; set; }
     public DateTimeOffset? FinishedAt { get; set; }
 

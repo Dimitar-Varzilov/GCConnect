@@ -1,5 +1,4 @@
-﻿using GCConnect.Services.Persistence;
-using Microsoft.EntityFrameworkCore;
+﻿using GCConnect.WebAPI.Extensions;
 
 namespace GCConnect.WebAPI
 {
@@ -8,39 +7,22 @@ namespace GCConnect.WebAPI
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddDbContext<GCConnectDbContext>(opt =>
-            {
-                opt.AddInterceptors(new AuditSaveChangesInterceptor());
-                opt.UseSqlServer(builder.Configuration.GetConnectionString("Sql"), sql =>
-                {
-                    sql.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-                    sql.MigrationsAssembly(typeof(GCConnectDbContext).Assembly.GetName().Name);
-                });
-            });
-
+            // Register services in the extension method and keep Program.cs clean
+            builder.Services.ConfigureServices(builder.Configuration);
             var app = builder.Build();
-
-            // Dev: auto-migrate + seed
+            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                using var scope = app.Services.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<GCConnectDbContext>();
-                var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
-                try
-                {
-                    db.Database.Migrate();
-                    await DbSeeder.SeedAsync(db); // <- вече може да се await-не
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "Database migration/seed failed");
-                    throw;
-                }
+                app.MapOpenApi();
+                await app.UseDevDatabaseAsync();   // migrations and seeds
             }
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            await app.RunAsync(); // <- async вариантът на Run
+            app.MapControllers();
+
+            await app.RunAsync();
         }
     }
 }

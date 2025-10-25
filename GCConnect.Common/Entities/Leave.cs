@@ -1,4 +1,5 @@
 using GCConnect.Common.Entities;
+using GCConnect.Common.Enums;
 
 namespace GCConnect.Common.Entities;
 
@@ -10,7 +11,7 @@ public class Leave : BaseEntity
     public DateOnly FromDate { get; set; }
     public DateOnly ToDate { get; set; }
 
-    public string Type { get; set; } = "Paid";     // "Paid" | "Unpaid" | "Sick"
-    public string Status { get; set; } = "Approved"; // MVP
+    public LeaveType Type { get; set; } = LeaveType.Paid;     // "Paid" | "Unpaid" | "Sick"
+    public LeaveStatus Status { get; set; } = LeaveStatus.Pending;// "Pending" | "Approved"
     public string? Note { get; set; }
 }

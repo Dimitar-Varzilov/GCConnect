@@ -4,18 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace GCConnect.Services.Persistence.Configurations;
 
-public class JobHistoryConfiguration : IEntityTypeConfiguration<JobHistory>
+public class JobHistoryConfiguration : BaseEntityConfiguration<JobHistory>
 {
-    public void Configure(EntityTypeBuilder<JobHistory> b)
+    public override void Configure(EntityTypeBuilder<JobHistory> b)
     {
+        base.Configure(b);
         b.ToTable("JobHistory");
-        b.HasKey(x => x.Id);
+       
 
         b.Property(x => x.Type).HasConversion<int>();
         b.Property(x => x.Status).HasConversion<int>();
         b.Property(x => x.ResultUrl).HasMaxLength(1024);
 
-        b.Property(x => x.StartedAt).HasDefaultValueSql("SYSDATETIMEOFFSET()");
+        b.Property(x => x.StartedAt).HasDefaultValueSql("SYSUTCDATETIME()");
         b.Property(x => x.Logs).HasMaxLength(4000);
 
 
