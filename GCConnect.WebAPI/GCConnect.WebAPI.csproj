@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GCConnect.Common\GCConnect.Common.csproj" />
+    <ProjectReference Include="..\GCConnect.Services\GCConnect.Services.csproj" />
   </ItemGroup>
 
 </Project>

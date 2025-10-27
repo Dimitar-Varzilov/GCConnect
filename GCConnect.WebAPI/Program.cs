@@ -1,34 +1,30 @@
-using GCConnect.WebAPI.Extensions;
+﻿using GCConnect.WebAPI.Extensions;
 
 namespace GCConnect.WebAPI
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    public class Program
+    {
+        public static async Task Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            // Register services in the extension method and keep Program.cs clean
+            builder.Services.ConfigureServices(builder.Configuration);
+            var app = builder.Build();
+            // Configure the HTTP request pipeline.
 
-			//Register services in the extension method and keep the Program.cs clean
-			builder.Services.ConfigureServices(builder.Configuration);
+            if (app.Environment.IsDevelopment())
+            {
+                app.MapOpenApi();
+              
+                await app.UseDevDatabaseAsync();   // migrations and seeds
+            }
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-			var app = builder.Build();
+            app.MapControllers();
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.MapOpenApi();
-			}
-
-			app.UseHttpsRedirection();
-
-			app.UseAuthentication();
-
-			app.UseAuthorization();
-
-
-			app.MapControllers();
-
-			app.Run();
-		}
-	}
+            await app.RunAsync();
+        }
+    }
 }
