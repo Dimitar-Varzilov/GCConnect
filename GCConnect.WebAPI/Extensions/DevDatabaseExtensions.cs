@@ -11,7 +11,6 @@ public static class DevDatabaseExtensions
     public static async Task UseDevDatabaseAsync(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
-        var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
         var db = scope.ServiceProvider.GetRequiredService<GCConnectDbContext>();
         var logger = scope.ServiceProvider
                          .GetRequiredService<ILoggerFactory>()
