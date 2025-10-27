@@ -12,8 +12,6 @@ public static class DevDatabaseExtensions
     {
         using var scope = app.ApplicationServices.CreateScope();
         var env = scope.ServiceProvider.GetRequiredService<IHostEnvironment>();
-        if (!env.IsDevelopment()) return;
-
         var db = scope.ServiceProvider.GetRequiredService<GCConnectDbContext>();
         var logger = scope.ServiceProvider
                          .GetRequiredService<ILoggerFactory>()
