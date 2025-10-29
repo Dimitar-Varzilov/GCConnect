@@ -1,7 +1,6 @@
 ﻿using GCConnect.Services.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 
 namespace GCConnect.WebAPI.Extensions
 {
@@ -11,7 +10,11 @@ namespace GCConnect.WebAPI.Extensions
         {
             // Add services to the container.
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = configuration["Okta:Authority"];
+                    options.Audience = configuration["Okta:Audience"];
+                });
             services.AddControllers();
             
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
