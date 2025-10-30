@@ -1,6 +1,8 @@
-﻿using GCConnect.Services.Persistence;
+﻿using FluentValidation;
+using GCConnect.Services.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 
 namespace GCConnect.WebAPI.Extensions
@@ -13,7 +15,7 @@ namespace GCConnect.WebAPI.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(configuration.GetSection("AzureAd"));
             services.AddControllers();
-            
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             services.AddOpenApi();
             services.AddDbContext<GCConnectDbContext>(opt =>
@@ -24,7 +26,8 @@ namespace GCConnect.WebAPI.Extensions
                     sql.MigrationsAssembly(typeof(GCConnectDbContext).Assembly.GetName().Name);
                 });
             });
-
+            services.AddAppMapping();
+            services.AddValidatorsFromAssemblyContaining<CreateUserDtoValidator>();
             return services;
         }
 
