@@ -4,11 +4,19 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run ASP.NET Core WebAPI",
+            "label": "Run SQL Server",
             "type": "shell",
-            "command": "dotnet run --project ./GCConnect.WebAPI/GCConnect.WebAPI.csproj",
+            "command": "docker pull mcr.microsoft.com/mssql/server:2022-latest && (docker inspect sqlserver-gcconnect >/dev/null 2>&1 || docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong!Passw0rd' -p 1433:1433 --name sqlserver-gcconnect -d mcr.microsoft.com/mssql/server:2022-latest) && docker start sqlserver-gcconnect && until docker logs sqlserver-gcconnect 2>&1 | grep -q 'The tempdb database has'; do echo 'Waiting for SQL Server to be ready...'; sleep 2; done",
+            "group": "build"
+        },
+        {
+            "label": "Build ASP.NET Core WebAPI",
+            "type": "shell",
+            "command": "dotnet build ./GCConnect.WebAPI/GCConnect.WebAPI.csproj",
             "group": "build",
-            "problemMatcher": ["$msCompile"]
+            "problemMatcher": [
+                "$msCompile"
+            ]
         },
         {
             "label": "Start Angular UI",
@@ -19,7 +27,9 @@
             },
             "isBackground": true,
             "group": "build",
-            "problemMatcher": ["$tsc"]
+            "problemMatcher": [
+                "$tsc"
+            ]
         }
     ]
 }
