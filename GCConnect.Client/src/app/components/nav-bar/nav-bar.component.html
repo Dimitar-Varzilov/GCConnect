@@ -1,0 +1,13 @@
+<div>
+    <a [routerLink]="ROUTES_PATHS.root">Home</a>
+    <a [routerLink]="ROUTES_PATHS.profile">Profile</a>
+
+    <div>
+        <button *ngIf="!isAuthenticated; else signOutTemplate" (click)="authService.signInWithRedirect()">Login</button>
+    </div>
+
+</div>
+
+<ng-template #signOutTemplate>
+    <button (click)="authService.signOut()">Logout</button>
+</ng-template>

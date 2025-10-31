@@ -2,17 +2,22 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { OktaAuthGuard, OktaCallbackComponent } from '@okta/okta-angular';
 import { AppComponent } from './app.component';
+import { ROUTES } from './common/constants/routes.constants';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ROUTES.root,
     component: AppComponent,
   },
   {
-    path: 'login/callback',
+    path: ROUTES.loginCallback,
     component: OktaCallbackComponent,
-    canActivate: [OktaAuthGuard]
-  }
+  },
+  {
+    path: ROUTES.profile,
+    loadChildren: () => import('./modules/profile.module').then(m => m.ProfileModule),
+    canActivate: [OktaAuthGuard],
+  },
 ];
 
 @NgModule({
