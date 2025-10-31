@@ -2,11 +2,15 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { ROUTES_PATHS } from "src/app/common/constants/routes.constants";
+
 export const environment = {
   production: false,
   okta: {
-    clientId: '0oawp7ttyirnoMful697', // TODO: Replace with your Okta clientId
-    issuer: 'https://integrator-1333019.okta.com/oauth2/default', // TODO: Replace with your Okta domain
+    // clientId: '0oawp7ttyirnoMful697', // GCConnect
+    clientId: '0oawp7ttyirnoMful697', // GC Connect test
+    issuer: 'https://integrator-1333019.okta.com/oauth2/default',
+    redirectUrl: window.location.origin + ROUTES_PATHS.loginCallback,
     scopes: ['openid', 'profile', 'email']
   }
 };
