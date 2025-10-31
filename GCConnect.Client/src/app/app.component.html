@@ -1,8 +1,2 @@
-<div style="margin: 2rem;">
-  <h1>{{ title }}</h1>
-  <button *ngIf="!isAuthenticated" (click)="login()">Login</button>
-  <button *ngIf="isAuthenticated" (click)="logout()">Logout</button>
-  <p *ngIf="isAuthenticated">You are logged in with Okta.</p>
-  <p *ngIf="!isAuthenticated">You are not logged in.</p>
-</div>
+<app-nav-bar></app-nav-bar>
 <router-outlet></router-outlet>

@@ -4,10 +4,12 @@ import { OktaAuthModule, OKTA_CONFIG } from '@okta/okta-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OktaAuthFactory } from './okta-auth.factory';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -17,7 +19,7 @@ import { OktaAuthFactory } from './okta-auth.factory';
   providers: [
     {
       provide: OKTA_CONFIG,
-      useValue: { oktaAuth: OktaAuthFactory.createOktaAuth() }
+      useValue: OktaAuthFactory.createOktaAuth()
     }
   ],
   bootstrap: [AppComponent]
