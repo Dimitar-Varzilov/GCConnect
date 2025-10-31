@@ -1,9 +1,8 @@
 import { Injectable, Injector } from '@angular/core';
 import { OktaAuth } from '@okta/okta-auth-js';
 import { environment } from '../environments/environment';
-import { Router } from '@angular/router';
 import { OktaConfig } from '@okta/okta-angular';
-import { ROUTES_PATHS } from './common/constants/routes.constants';
+import { OktaAuthService } from './services/okta-auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class OktaAuthFactory {
@@ -11,9 +10,8 @@ export class OktaAuthFactory {
         return {
             onAuthRequired: (oktaAuth: OktaAuth, injector: Injector) => {
                 // Use injector to access services
-                const router = injector.get(Router);
-                // Redirect the user to your custom login page
-                router.navigate([ROUTES_PATHS.auth]);
+                const authService = injector.get(OktaAuthService);
+                authService.signInWithRedirect();
             },
             oktaAuth: new OktaAuth({
                 issuer: environment.okta.issuer,
