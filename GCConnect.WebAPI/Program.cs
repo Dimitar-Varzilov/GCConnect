@@ -1,4 +1,5 @@
-﻿using GCConnect.WebAPI.Extensions;
+﻿using GCConnect.Common.Constants;
+using GCConnect.WebAPI.Extensions;
 
 namespace GCConnect.WebAPI
 {
@@ -20,6 +21,10 @@ namespace GCConnect.WebAPI
                 await app.UseDevDatabaseAsync();   // migrations and seeds
             }
             app.UseHttpsRedirection();
+
+
+            app.UseCors(Cors.DefaultCorsPolicyName);
+
             app.UseAuthentication();
             app.UseAuthorization();
 
