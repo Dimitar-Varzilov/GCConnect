@@ -6,7 +6,7 @@
         {
             "label": "Run SQL Server",
             "type": "shell",
-            "command": "docker pull mcr.microsoft.com/mssql/server:2022-latest && (docker inspect sqlserver-gcconnect >/dev/null 2>&1 || docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong!Passw0rd' -p 1433:1433 --name sqlserver-gcconnect -d mcr.microsoft.com/mssql/server:2022-latest) && docker start sqlserver-gcconnect && until docker logs sqlserver-gcconnect 2>&1 | grep -q 'The tempdb database has'; do echo 'Waiting for SQL Server to be ready...'; sleep 2; done",
+            "command": "docker pull mcr.microsoft.com/mssql/server:2022-latest && (docker inspect sqlserver-gcconnect >/dev/null 2>&1 || docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=YourStrong!Passw0rd' -p 1433:1433 --name sqlserver-gcconnect -d mcr.microsoft.com/mssql/server:2022-latest) && docker start sqlserver-gcconnect && until docker logs sqlserver-gcconnect 2>&1 | grep -q 'Recovery is complete. This is an informational message only. No user action is required.'; do echo 'Waiting for SQL Server to be ready...'; sleep 2; done",
             "group": "build"
         },
         {
