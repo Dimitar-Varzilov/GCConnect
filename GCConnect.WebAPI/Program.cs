@@ -14,8 +14,9 @@ namespace GCConnect.WebAPI
 
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
-              
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
                 await app.UseDevDatabaseAsync();   // migrations and seeds
             }
             app.UseHttpsRedirection();

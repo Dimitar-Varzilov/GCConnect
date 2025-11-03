@@ -16,9 +16,9 @@ namespace GCConnect.WebAPI.Extensions
                     options.Audience = configuration["Okta:Audience"];
                 });
             services.AddControllers();
-            
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            services.AddOpenApi();
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
             services.AddDbContext<GCConnectDbContext>(opt =>
             {
                 opt.UseSqlServer(configuration.GetConnectionString("Sql"), sql =>
