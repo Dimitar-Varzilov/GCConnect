@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { OKTA_AUTH } from '@okta/okta-angular';
-import OktaAuth from '@okta/okta-auth-js';
 import { OktaAuthService } from './okta-auth.service';
 
 describe('OktaAuthService', () => {

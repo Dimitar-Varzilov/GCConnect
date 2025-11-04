@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OktaAuth } from '@okta/okta-auth-js';
 import { OktaAuthStateService } from '@okta/okta-angular';
-import { environment } from '../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class OktaAuthWrapperService {

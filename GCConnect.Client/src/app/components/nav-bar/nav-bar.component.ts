@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OktaAuthStateService } from '@okta/okta-angular';
 import { ROUTES_PATHS } from 'src/app/common/constants/routes.constants';
 import { OktaAuthService } from 'src/app/services/okta-auth.service';

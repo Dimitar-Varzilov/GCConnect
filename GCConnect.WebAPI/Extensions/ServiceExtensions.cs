@@ -29,12 +29,10 @@ namespace GCConnect.WebAPI.Extensions
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(o =>
             {
-                // o.SwaggerDoc("v1", new() { Title = "Task Management API", Version = "v1" });
-
                 // Add Bearer token support for Swagger UI
                 o.AddSecurityDefinition(OktaDefaults.ApiAuthenticationScheme, new OpenApiSecurityScheme()
                 {
-                    Description = "JWT Authorization header using the Bearer scheme. Example: 'Authorization: Bearer {token}'",
+                    Description = "Enter the value of the Bearer token.",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
@@ -50,7 +48,7 @@ namespace GCConnect.WebAPI.Extensions
                             Reference = new OpenApiReference()
                             {
                                 Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Id = OktaDefaults.ApiAuthenticationScheme
                             }
                         },
                         Array.Empty<string>()

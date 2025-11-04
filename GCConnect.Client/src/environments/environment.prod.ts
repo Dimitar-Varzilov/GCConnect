@@ -5,7 +5,7 @@ export const environment = {
   okta: {
     clientId: '0oawp7ttyirnoMful697', // TODO: Replace with your Okta clientId
     issuer: 'https://integrator-1333019.okta.com/oauth2/default', // TODO: Replace with your Okta domain,
-    redirectUrl: '<your_redirect_uri>' + ROUTES_PATHS.loginCallback,
+    redirectUrl: window.location.origin + ROUTES_PATHS.loginCallback,
     scopes: ['openid', 'profile', 'email']
   }
 };

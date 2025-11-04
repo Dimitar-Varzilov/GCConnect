@@ -21,18 +21,7 @@ public static class DevDatabaseExtensions
             await db.Database.MigrateAsync();
             logger.LogInformation("Database migration completed.");
 
-            // Only run seed if there are no user tables (db is empty)
-            var hasAnyTables = await db.Database.ExecuteSqlRawAsync(
-                "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = 'dbo'") > 0;
-            if (!hasAnyTables)
-            {
-                await DbSeeder.SeedAsync(db);
-                logger.LogInformation("Database seeded.");
-            }
-            else
-            {
-                logger.LogInformation("Database already contains data. Skipping seed.");
-            }
+            await DbSeeder.SeedAsync(db);
         }
         catch (Exception ex)
         {
