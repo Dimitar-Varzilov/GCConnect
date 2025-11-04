@@ -7,9 +7,7 @@ import OktaAuth from '@okta/okta-auth-js';
 })
 export class OktaAuthService {
 
-  private readonly oktaAuth: OktaAuth
-  constructor(@Inject(OKTA_AUTH) public authService: OktaAuth) {
-    this.oktaAuth = authService;
+  constructor(@Inject(OKTA_AUTH) private readonly oktaAuth: OktaAuth) {
   }
 
   async signInWithRedirect(returnUrl?: string) {

@@ -72,8 +72,12 @@ namespace GCConnect.WebAPI.Extensions
                     policy =>
                     {
                         // Read the allowed origins from appsettings.json
-                        var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-                        if (allowedOrigins != null && allowedOrigins.Length > 0)
+                        var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? throw new InvalidOperationException("Cors:AllowedOrigins configuration is missing.");
+                        if (allowedOrigins.Length == 0)
+                        {
+                            throw new InvalidOperationException("Cors:AllowedOrigins configuration is empty.");
+                        }
+                        else
                         {
                             policy.WithOrigins(allowedOrigins)
                                 .AllowAnyHeader()

@@ -9,9 +9,8 @@ export class OktaAuthFactory {
     static createOktaAuth(): OktaConfig {
         return {
             onAuthRequired: (oktaAuth: OktaAuth, injector: Injector) => {
-                // Use injector to access services
-                const authService = injector.get(OktaAuthService);
-                authService.signInWithRedirect();
+                // Directly call signInWithRedirect to avoid circular dependency
+                oktaAuth.signInWithRedirect();
             },
             oktaAuth: new OktaAuth({
                 issuer: environment.okta.issuer,
