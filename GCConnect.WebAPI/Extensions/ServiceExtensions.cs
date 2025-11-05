@@ -77,12 +77,9 @@ namespace GCConnect.WebAPI.Extensions
                         {
                             throw new InvalidOperationException("Cors:AllowedOrigins configuration is empty.");
                         }
-                        else
-                        {
-                            policy.WithOrigins(allowedOrigins)
-                                .AllowAnyHeader()
-                                .AllowAnyMethod();
-                        }
+                        policy.WithOrigins(allowedOrigins)
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                     });
             });
 
