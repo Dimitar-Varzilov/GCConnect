@@ -5,9 +5,9 @@ namespace GCConnect.WebAPI.Extensions;
 
 public static class DevDatabaseExtensions
 {
-    
+
     /// В Dev пуска миграциите и seed-ва начални данни.
-   
+
     public static async Task UseDevDatabaseAsync(this IApplicationBuilder app)
     {
         using var scope = app.ApplicationServices.CreateScope();
@@ -19,12 +19,13 @@ public static class DevDatabaseExtensions
         try
         {
             await db.Database.MigrateAsync();
+            logger.LogInformation("Database migration completed.");
+
             await DbSeeder.SeedAsync(db);
-            logger.LogInformation("Database migrated and seeded.");
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Database migration/seed failed");
+            logger.LogError(ex, "Database creation/migration/seed failed");
             throw;
         }
     }

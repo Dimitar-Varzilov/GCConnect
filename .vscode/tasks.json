@@ -1,0 +1,36 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run SQL Server",
+            "type": "shell",
+            // NOTE: Set the SA_PASSWORD environment variable before running this task. Example: export SA_PASSWORD='YourStrong!Passw0rd'
+            "command": "docker pull mcr.microsoft.com/mssql/server:2022-latest && (docker inspect sqlserver-gcconnect >/dev/null 2>&1 || docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=${SA_PASSWORD}' -p 1433:1433 --name sqlserver-gcconnect -d mcr.microsoft.com/mssql/server:2022-latest) && docker start sqlserver-gcconnect && until docker logs sqlserver-gcconnect 2>&1 | grep -q 'Recovery is complete. This is an informational message only. No user action is required.'; do echo 'Waiting for SQL Server to be ready...'; sleep 2; done",
+            "group": "build"
+        },
+        {
+            "label": "Build ASP.NET Core WebAPI",
+            "type": "shell",
+            "command": "dotnet build ./GCConnect.WebAPI/GCConnect.WebAPI.csproj",
+            "group": "build",
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "Start Angular UI",
+            "type": "shell",
+            "command": "npm start",
+            "options": {
+                "cwd": "${workspaceFolder}/GCConnect.Client"
+            },
+            "isBackground": true,
+            "group": "build",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        }
+    ]
+}
